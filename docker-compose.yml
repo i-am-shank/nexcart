@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    ports:
+      - "9090:9090"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: onlinestore
+      MYSQL_USERNAME: onlinestore
+      MYSQL_PASSWORD: onlinestore
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: onlinestore
+      MYSQL_USER: onlinestore
+      MYSQL_PASSWORD: onlinestore
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:

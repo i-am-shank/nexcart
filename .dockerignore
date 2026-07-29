@@ -1,0 +1,12 @@
+target/
+.idea/
+.mvn/wrapper/maven-wrapper.jar
+.git/
+.gitignore
+.gitattributes
+*.md
+docs/
+onlineStore - endpoints/
+onlineStore - design.txt
+onlineStore.sql
+.vscode/
