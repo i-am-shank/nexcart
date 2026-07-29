@@ -1,0 +1,722 @@
+info:
+  name: Create Product
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9090/product
+  body:
+    type: json
+    data: |-
+      {
+          "title": "Adidas Football Shoes",
+          "description": "Lightweight football studs with enhanced grip for turf and ground play",
+          "price": 4599.75,
+          "discountPercentage": 12,
+          "remainingQuantity": 14,
+          "categoryId": 4
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: error 1 - invalid title
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "",
+            "description": "product 01 desc",
+            "price": 134.45632,
+            "discountPercentage": 15.6789,
+            "remainingQuantity": 0
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 02:30:33 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "title: Product title is required",
+            "result": null
+          }
+  - name: error 1 - invalid discount (a)
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": 123,
+            "discountPercentage": 155.6789,
+            "remainingQuantity": 0
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:02:58 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "discountPercentage: Maximum allowed value for discountPercentage is 100.0",
+            "result": null
+          }
+  - name: error 1 - invalid discount (b)
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": 123,
+            "discountPercentage": -15.6789,
+            "remainingQuantity": 0
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:03:40 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "discountPercentage: Discount percentage cannot be negative",
+            "result": null
+          }
+  - name: error 1 - invalid price
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": null,
+            "discountPercentage": 15.6789,
+            "remainingQuantity": 5
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:04:44 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "price: Product price is required",
+            "result": null
+          }
+  - name: error 1 - invalid remainingQty
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": 100,
+            "discountPercentage": 15.6789,
+            "remainingQuantity": -5
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:05:45 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "remainingQuantity: Minimum allowed value for remainingQuantity is 0",
+            "result": null
+          }
+  - name: success 1 - inStock true
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": 99.89,
+            "discountPercentage": 13,
+            "remainingQuantity": 16
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:18:13 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 1,
+              "title": "Product 01",
+              "description": "product 01 desc",
+              "price": 99.89,
+              "discountPercentage": 13.0,
+              "remainingQuantity": 16,
+              "inStock": true
+            }
+          }
+  - name: success 1 - inStock false
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 01",
+            "description": "product 01 desc",
+            "price": 99.89,
+            "discountPercentage": 13,
+            "remainingQuantity": 5
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:18:55 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 2,
+              "title": "Product 01",
+              "description": "product 01 desc",
+              "price": 99.89,
+              "discountPercentage": 13.0,
+              "remainingQuantity": 5,
+              "inStock": false
+            }
+          }
+  - name: success 1 - inStock false
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 03",
+            "description": "product 03 desc",
+            "price": 149.89,
+            "discountPercentage": 15,
+            "remainingQuantity": 3
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:35:13 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 3,
+              "title": "Product 03",
+              "description": "product 03 desc",
+              "price": 149.89,
+              "discountPercentage": 15.0,
+              "remainingQuantity": 3,
+              "inStock": false
+            }
+          }
+  - name: success 2 - productImg - inStock true
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "CASIO CTX 870-IN 61-key keyboard",
+            "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+            "price": 14999.87,
+            "discountPercentage": 20,
+            "remainingQuantity": 10
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 18:18:30 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 4,
+              "title": "CASIO CTX 870-IN 61-key keyboard",
+              "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+              "price": 14999.87,
+              "discountPercentage": 20.0,
+              "remainingQuantity": 10,
+              "inStock": true,
+              "files": []
+            }
+          }
+  - name: success 3 - productImg - inStock true
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Roland FP-10",
+            "description": "Digital Piano, 88-keys weighted touch sensitive",
+            "price": 54999.5423,
+            "discountPercentage": 11,
+            "remainingQuantity": 8
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 07 May 2026 03:48:11 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 5,
+              "title": "Roland FP-10",
+              "description": "Digital Piano, 88-keys weighted touch sensitive",
+              "price": 54999.5423,
+              "discountPercentage": 11.0,
+              "remainingQuantity": 8,
+              "inStock": true,
+              "files": []
+            }
+          }
+  - name: success 4 - product category
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "Nike Strike Football",
+              "description": "FIFA-approved training football with durable outer casing",
+              "price": 1899.5,
+              "discountPercentage": 10,
+              "remainingQuantity": 35,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 15:16:35 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 4,
+              "title": "Nike Strike Football",
+              "description": "FIFA-approved training football with durable outer casing",
+              "price": 1899.5,
+              "discountPercentage": 10.0,
+              "remainingQuantity": 35,
+              "inStock": true,
+              "categoryResponseDTO": null,
+              "files": []
+            }
+          }
+  - name: success 4 - product category (2)
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "SG Kashmir Willow Cricket Bat",
+              "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+              "price": 3499.99,
+              "discountPercentage": 15,
+              "remainingQuantity": 20,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 15:20:38 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 4,
+              "title": "SG Kashmir Willow Cricket Bat",
+              "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+              "price": 3499.99,
+              "discountPercentage": 15.0,
+              "remainingQuantity": 20,
+              "inStock": true,
+              "categoryResponseDTO": null,
+              "files": []
+            }
+          }
+  - name: success 4 - product category (3)
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "Adidas Football Shoes",
+              "description": "Lightweight football studs with enhanced grip for turf and ground play",
+              "price": 4599.75,
+              "discountPercentage": 12,
+              "remainingQuantity": 14,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 16:34:51 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 4,
+              "title": "Adidas Football Shoes",
+              "description": "Lightweight football studs with enhanced grip for turf and ground play",
+              "price": 4599.75,
+              "discountPercentage": 12.0,
+              "remainingQuantity": 14,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 4,
+                "title": "Sports",
+                "description": "Sports, Fitness ",
+                "coverImageFileId": 9
+              },
+              "files": []
+            }
+          }
+  - name: success 5 - product category - 1
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "Nike Strike Football",
+              "description": "FIFA-approved training football with durable outer casing",
+              "price": 1899.5,
+              "discountPercentage": 10,
+              "remainingQuantity": 35,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 17:03:23 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 7,
+              "title": "Nike Strike Football",
+              "description": "FIFA-approved training football with durable outer casing",
+              "price": 1899.5,
+              "discountPercentage": 10.0,
+              "remainingQuantity": 35,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 4,
+                "title": "Sports",
+                "description": "Sports, Fitness ",
+                "coverImageFileId": 9
+              },
+              "files": []
+            }
+          }
+  - name: success 5 - product category - 2
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "SG Kashmir Willow Cricket Bat",
+              "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+              "price": 3499.99,
+              "discountPercentage": 15,
+              "remainingQuantity": 20,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 17:05:40 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 8,
+              "title": "SG Kashmir Willow Cricket Bat",
+              "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+              "price": 3499.99,
+              "discountPercentage": 15.0,
+              "remainingQuantity": 20,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 4,
+                "title": "Sports",
+                "description": "Sports, Fitness ",
+                "coverImageFileId": 9
+              },
+              "files": []
+            }
+          }
+  - name: success 5 - product category - 3
+    request:
+      url: http://localhost:9090/product
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "title": "Adidas Football Shoes",
+              "description": "Lightweight football studs with enhanced grip for turf and ground play",
+              "price": 4599.75,
+              "discountPercentage": 12,
+              "remainingQuantity": 14,
+              "categoryId": 4
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 17:06:17 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product created successfully",
+            "result": {
+              "productId": 9,
+              "title": "Adidas Football Shoes",
+              "description": "Lightweight football studs with enhanced grip for turf and ground play",
+              "price": 4599.75,
+              "discountPercentage": 12.0,
+              "remainingQuantity": 14,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 4,
+                "title": "Sports",
+                "description": "Sports, Fitness ",
+                "coverImageFileId": 9
+              },
+              "files": []
+            }
+          }

@@ -1,0 +1,819 @@
+info:
+  name: Get Users
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: http://localhost:9090/users?sortDirection=DESC&pageSize=3&pageNumber=0&search=Verma
+  params:
+    - name: sortDirection
+      value: DESC
+      type: query
+    - name: pageSize
+      value: "3"
+      type: query
+    - name: pageNumber
+      value: "0"
+      type: query
+    - name: search
+      value: Verma
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Get All Users - success - 1
+    request:
+      url: http://localhost:9090/users
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:22:18 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "userId": 1,
+                "name": "John Doe",
+                "email": "johndoe@example.com",
+                "gender": "Male",
+                "bio": "I love shopping online and exploring new products.",
+                "imageName": "profile.jpg",
+                "addedOn": "2026-04-04T21:21:34.049479",
+                "updatedOn": null
+              },
+              {
+                "userId": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "gender": "Female",
+                "bio": "Fashion enthusiast and blogger.",
+                "imageName": "alice.png",
+                "addedOn": "2026-04-04T21:46:41.427717",
+                "updatedOn": null
+              },
+              {
+                "userId": 3,
+                "name": "Rahul Verma",
+                "email": "rahul.verma@example.com",
+                "gender": "Male",
+                "bio": "Tech lover & gadget reviewer : Java developer passionate about Spring Boot and microservices.",
+                "imageName": "rahul.jpg",
+                "addedOn": "2026-04-04T21:50:23.74731",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Search Users - success - 1
+    request:
+      url: http://localhost:9090/users?search=jo
+      method: GET
+      params:
+        - name: search
+          value: jo
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:37:17 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "userId": 1,
+                "name": "John Doe",
+                "email": "johndoe@example.com",
+                "gender": "Male",
+                "bio": "I love shopping online and exploring new products.",
+                "imageName": "profile.jpg",
+                "addedOn": "2026-04-04T21:21:34.049479",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Get All Users - success - 2 - (1) deleted
+    request:
+      url: http://localhost:9090/users
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:40:41 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "userId": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "gender": "Female",
+                "bio": "Fashion enthusiast and blogger.",
+                "imageName": "alice.png",
+                "addedOn": "2026-04-04T21:46:41.427717",
+                "updatedOn": null
+              },
+              {
+                "userId": 3,
+                "name": "Rahul Verma",
+                "email": "rahul.verma@example.com",
+                "gender": "Male",
+                "bio": "Tech lover & gadget reviewer : Java developer passionate about Spring Boot and microservices.",
+                "imageName": "rahul.jpg",
+                "addedOn": "2026-04-04T21:50:23.74731",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Get Users - success - 1 (summary)
+    request:
+      url: http://localhost:9090/users
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 13:10:48 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "profilePicName": "alice.png"
+              },
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahul.jpg"
+              }
+            ]
+          }
+  - name: Search Users - success - 2 (summary)
+    request:
+      url: http://localhost:9090/users?search=Li
+      method: GET
+      params:
+        - name: search
+          value: Li
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 13:11:43 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "profilePicName": "alice.png"
+              }
+            ]
+          }
+  - name: Get Users - success - 3 (all users)
+    request:
+      url: http://localhost:9090/users
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:40:36 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "profilePicName": "alice.png"
+              },
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahulNew.png"
+              },
+              {
+                "id": 5,
+                "name": "Priya Singh",
+                "email": "priya.singh@example.com",
+                "profilePicName": "priya_pic.png"
+              },
+              {
+                "id": 6,
+                "name": "Aman Verma",
+                "email": "aman.verma@example.com",
+                "profilePicName": "aman_fit.jpg"
+              },
+              {
+                "id": 7,
+                "name": "Rohit Kumar",
+                "email": "rohit.kumar@example.com",
+                "profilePicName": "rohit_profile.jpg"
+              }
+            ]
+          }
+  - name: Get Users - success - 3 (size 3, page 0)
+    request:
+      url: http://localhost:9090/users?pageNumber=0&pageSize=3
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "3"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:41:11 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 2,
+                "name": "Alice Smith",
+                "email": "alice.smith@example.com",
+                "profilePicName": "alice.png"
+              },
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahulNew.png"
+              },
+              {
+                "id": 5,
+                "name": "Priya Singh",
+                "email": "priya.singh@example.com",
+                "profilePicName": "priya_pic.png"
+              }
+            ]
+          }
+  - name: Get Users - success - 3 (size 3, page 1)
+    request:
+      url: http://localhost:9090/users?pageNumber=1&pageSize=3
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "3"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:41:52 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 6,
+                "name": "Aman Verma",
+                "email": "aman.verma@example.com",
+                "profilePicName": "aman_fit.jpg"
+              },
+              {
+                "id": 7,
+                "name": "Rohit Kumar",
+                "email": "rohit.kumar@example.com",
+                "profilePicName": "rohit_profile.jpg"
+              }
+            ]
+          }
+  - name: Search Users - success - 3 (all users)
+    request:
+      url: http://localhost:9090/users?search=Verma
+      method: GET
+      params:
+        - name: search
+          value: Verma
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:43:29 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahulNew.png"
+              },
+              {
+                "id": 6,
+                "name": "Aman Verma",
+                "email": "aman.verma@example.com",
+                "profilePicName": "aman_fit.jpg"
+              }
+            ]
+          }
+  - name: Search Users - success - 3 (size 1, page 0)
+    request:
+      url: http://localhost:9090/users?search=Verma&pageSize=1&pageNumber=0
+      method: GET
+      params:
+        - name: search
+          value: Verma
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:44:08 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahulNew.png"
+              }
+            ]
+          }
+  - name: Search Users - success - 3 (size 1, page 1)
+    request:
+      url: http://localhost:9090/users?search=Verma&pageSize=1&pageNumber=1
+      method: GET
+      params:
+        - name: search
+          value: Verma
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: pageNumber
+          value: "1"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:44:31 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 6,
+                "name": "Aman Verma",
+                "email": "aman.verma@example.com",
+                "profilePicName": "aman_fit.jpg"
+              }
+            ]
+          }
+  - name: Get All Users - success - 4 (name DESC, size 2, page 0)
+    request:
+      url: http://localhost:9090/users?pageSize=2&pageNumber=0&sortDirection=DESC
+      method: GET
+      params:
+        - name: pageSize
+          value: "2"
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 16 Apr 2026 17:32:00 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 7,
+                "name": "Rohit Kumar",
+                "email": "rohit.kumar@example.com",
+                "profilePicName": "rohit_profile.jpg"
+              },
+              {
+                "id": 3,
+                "name": "Raahul Verma",
+                "email": "rahul.verma@example.com",
+                "profilePicName": "rahulNew.png"
+              }
+            ]
+          }
+  - name: Get All Users - success - 4 (name DESC, size 2, page 1)
+    request:
+      url: http://localhost:9090/users?pageSize=2&pageNumber=1&sortDirection=DESC
+      method: GET
+      params:
+        - name: pageSize
+          value: "2"
+          type: query
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 16 Apr 2026 17:43:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": [
+              {
+                "id": 5,
+                "name": "Priya Singh",
+                "email": "priya.singh@example.com",
+                "profilePicName": "priya_pic.png"
+              },
+              {
+                "id": 6,
+                "name": "Aman Verma",
+                "email": "aman.verma@example.com",
+                "profilePicName": "aman_fit.jpg"
+              }
+            ]
+          }
+  - name: Get All Users - success 5 (size 2, page 1) - pagination
+    request:
+      url: http://localhost:9090/users?pageSize=2&pageNumber=1&sortDirection=DESC
+      method: GET
+      params:
+        - name: pageSize
+          value: "2"
+          type: query
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 25 Apr 2026 17:32:44 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "id": 5,
+                  "name": "Priya Singh",
+                  "email": "priya.singh@example.com",
+                  "profilePicName": "priya_pic.png"
+                },
+                {
+                  "id": 6,
+                  "name": "Aman Verma",
+                  "email": "aman.verma@example.com",
+                  "profilePicName": "aman_fit.jpg"
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": false,
+              "pageNumber": 1,
+              "pageSize": 2,
+              "totalElements": 5,
+              "totalPages": 3
+            }
+          }
+  - name: Get All Users - success 5 - pagination
+    request:
+      url: http://localhost:9090/users?sortDirection=DESC
+      method: GET
+      params:
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 25 Apr 2026 18:07:17 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "id": 7,
+                  "name": "Rohit Kumar",
+                  "email": "rohit.kumar@example.com",
+                  "profilePicName": "rohit_profile.jpg"
+                },
+                {
+                  "id": 3,
+                  "name": "Raahul Verma",
+                  "email": "rahul.verma@example.com",
+                  "profilePicName": "rahulNew.png"
+                },
+                {
+                  "id": 5,
+                  "name": "Priya Singh",
+                  "email": "priya.singh@example.com",
+                  "profilePicName": "priya_pic.png"
+                },
+                {
+                  "id": 6,
+                  "name": "Aman Verma",
+                  "email": "aman.verma@example.com",
+                  "profilePicName": "aman_fit.jpg"
+                },
+                {
+                  "id": 2,
+                  "name": "Alice Smith",
+                  "email": "alice.smith@example.com",
+                  "profilePicName": "alice.png"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 5,
+              "totalElements": 5,
+              "totalPages": 1
+            }
+          }
+  - name: Search Users - success 5 - pagination
+    request:
+      url: http://localhost:9090/users?sortDirection=DESC&pageSize=3&pageNumber=0&search=Verma
+      method: GET
+      params:
+        - name: sortDirection
+          value: DESC
+          type: query
+        - name: pageSize
+          value: "3"
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: search
+          value: Verma
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 25 Apr 2026 18:08:51 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Users fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "id": 3,
+                  "name": "Raahul Verma",
+                  "email": "rahul.verma@example.com",
+                  "profilePicName": "rahulNew.png"
+                },
+                {
+                  "id": 6,
+                  "name": "Aman Verma",
+                  "email": "aman.verma@example.com",
+                  "profilePicName": "aman_fit.jpg"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 3,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }

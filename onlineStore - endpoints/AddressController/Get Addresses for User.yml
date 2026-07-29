@@ -1,0 +1,331 @@
+info:
+  name: Get Addresses for User
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:9090/address/user/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/address/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:14:09 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 1,
+                "userId": 2,
+                "name": "Rahul Sharma",
+                "building": "Flat 302",
+                "street": "MG Road",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "pinCode": "560001",
+                "phoneNumber": "9876543210",
+                "isCurrent": true,
+                "addedOn": "2026-05-25T23:41:19.323854",
+                "updatedOn": null
+              },
+              {
+                "addressId": 2,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": null,
+                "addedOn": "2026-05-25T23:43:33.066884",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Success 2 - non existing user
+    request:
+      url: http://localhost:9090/address/user/208
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:16:59 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": []
+          }
+  - name: Success 3 - current address updated
+    request:
+      url: http://localhost:9090/address/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:20:45 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 1,
+                "userId": 2,
+                "name": "Rohit Sharma",
+                "building": "Flat 204",
+                "street": "near Cubbon Park",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "pinCode": "560001",
+                "phoneNumber": "9876543210",
+                "isCurrent": false,
+                "addedOn": "2026-05-25T23:41:19.323854",
+                "updatedOn": "2026-05-25T23:50:21.762482"
+              },
+              {
+                "addressId": 2,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-25T23:43:33.066884",
+                "updatedOn": "2026-05-25T23:50:21.764479"
+              }
+            ]
+          }
+  - name: Success 4 - another user
+    request:
+      url: http://localhost:9090/address/user/3
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:22:29 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 3,
+                "userId": 3,
+                "name": "Priya Singh",
+                "building": "Green Residency",
+                "street": "Sector 21",
+                "city": "Noida",
+                "state": "Uttar Pradesh",
+                "pinCode": "201301",
+                "phoneNumber": "9988776655",
+                "isCurrent": true,
+                "addedOn": "2026-05-25T23:52:12.367212",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Success 5 - another isCurrent deleted
+    request:
+      url: http://localhost:9090/address/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:25:31 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 1,
+                "userId": 2,
+                "name": "Rohit Sharma",
+                "building": "Flat 204",
+                "street": "near Cubbon Park",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "pinCode": "560001",
+                "phoneNumber": "9876543210",
+                "isCurrent": true,
+                "addedOn": "2026-05-25T23:41:19.323854",
+                "updatedOn": "2026-05-25T23:55:13.654167"
+              }
+            ]
+          }
+  - name: Success 6 - re-added removed address
+    request:
+      url: http://localhost:9090/address/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 26 May 2026 04:06:34 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 1,
+                "userId": 2,
+                "name": "Rohit Sharma",
+                "building": "Flat 204",
+                "street": "near Cubbon Park",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "pinCode": "560001",
+                "phoneNumber": "9876543210",
+                "isCurrent": true,
+                "addedOn": "2026-05-25T23:41:19.323854",
+                "updatedOn": "2026-05-25T23:55:13.654167"
+              },
+              {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": null,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: Success 7 - current address deleted
+    request:
+      url: http://localhost:9090/address/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 26 May 2026 04:09:24 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User addresses retrieved successfully",
+            "result": [
+              {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              }
+            ]
+          }

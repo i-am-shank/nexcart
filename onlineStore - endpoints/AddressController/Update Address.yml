@@ -1,0 +1,115 @@
+info:
+  name: Update Address
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: http://localhost:9090/address/196
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Anjali Sharma",
+        "building": "PG 101",
+        "street": "Indiranagar"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/address/1
+      method: PUT
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Rohit Sharma",
+            "building": "Flat 204",
+            "street": "near Cubbon Park"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:16:33 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address updated successfully",
+            "result": {
+              "addressId": 1,
+              "userId": 2,
+              "name": "Rohit Sharma",
+              "building": "Flat 204",
+              "street": "near Cubbon Park",
+              "city": "Bangalore",
+              "state": "Karnataka",
+              "pinCode": "560001",
+              "phoneNumber": "9876543210",
+              "isCurrent": true,
+              "addedOn": "2026-05-25T23:41:19.323854",
+              "updatedOn": "2026-05-25T23:46:33.6503048"
+            }
+          }
+  - name: Error 1 - address not found
+    request:
+      url: http://localhost:9090/address/196
+      method: PUT
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Anjali Sharma",
+            "building": "PG 101",
+            "street": "Indiranagar"
+          }
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:18:22 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 196",
+            "result": null
+          }

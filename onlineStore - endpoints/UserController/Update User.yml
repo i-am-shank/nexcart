@@ -1,0 +1,165 @@
+info:
+  name: Update User
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: http://localhost:9090/users/3
+  body:
+    type: json
+    data: |-
+      {
+        "imageName": "rahulNew.png"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Update User - error - 1
+    request:
+      url: http://localhost:9090/users/3
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "name": "A"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 04:12:43 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "name: Name must be between 2 and 100 characters",
+            "result": null
+          }
+  - name: Update User - success - 1
+    request:
+      url: http://localhost:9090/users/3
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Raahul Verma"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 04:13:24 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User updated successfully",
+            "result": {
+              "userId": 3,
+              "name": "Raahul Verma",
+              "email": "rahul.verma@example.com",
+              "gender": "Male",
+              "bio": "Tech lover & gadget reviewer : Java developer passionate about Spring technologies.",
+              "imageName": "rahul.jpg",
+              "addedOn": "2026-04-04T21:50:23.74731",
+              "updatedOn": "2026-04-05T09:43:24.4724507"
+            }
+          }
+  - name: Update User - error - 2 - Invalid imageName
+    request:
+      url: http://localhost:9090/users/3
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "imageName": "rahulPic.jpeg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 09 Apr 2026 04:48:37 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "imageName: Invalid Image name: supported formats are jpg & png",
+            "result": null
+          }
+  - name: Update User - success - 2 - Valid imageName
+    request:
+      url: http://localhost:9090/users/3
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "imageName": "rahulNew.png"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 09 Apr 2026 04:49:48 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User updated successfully",
+            "result": {
+              "userId": 3,
+              "name": "Raahul Verma",
+              "email": "rahul.verma@example.com",
+              "gender": "Male",
+              "bio": "Tech lover & gadget reviewer : Java developer passionate about Spring technologies.",
+              "imageName": "rahulNew.png",
+              "addedOn": "2026-04-04T21:50:23.74731",
+              "updatedOn": "2026-04-09T10:19:48.3103707"
+            }
+          }

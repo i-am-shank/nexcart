@@ -1,0 +1,660 @@
+info:
+  name: Update Order Payment Status
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: http://localhost:9090/order/payment-status/2?status=PENDING
+  params:
+    - name: status
+      value: PENDING
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Error 1 - PENDING to REFUND_IN_PROCESS
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUND_IN_PROCESS
+      method: PUT
+      params:
+        - name: status
+          value: REFUND_IN_PROCESS
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 15:39:24 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PENDING payment-status to REFUND_IN_PROCESS",
+            "result": null
+          }
+  - name: Error 1 - PENDING to REFUNDED
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUNDED
+      method: PUT
+      params:
+        - name: status
+          value: REFUNDED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 15:44:20 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PENDING payment-status to REFUNDED",
+            "result": null
+          }
+  - name: Success 1 - PENDING to PAID
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=PAID
+      method: PUT
+      params:
+        - name: status
+          value: PAID
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 15:52:30 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order payment status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PAID",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": null
+            }
+          }
+  - name: Error 2 - PAID to REFUND_IN_PROCESS, DISPATCHED order
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUND_IN_PROCESS
+      method: PUT
+      params:
+        - name: status
+          value: REFUND_IN_PROCESS
+          type: query
+    response:
+      status: 409
+      statusText: Conflict
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:14:08 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 409,
+            "message": "Illegal state reached : Cannot start REFUND, if order not in RETURN_STARTED status",
+            "result": null
+          }
+  - name: Error 2 - PAID to REFUNDED
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUNDED
+      method: PUT
+      params:
+        - name: status
+          value: REFUNDED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:35:23 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PAID payment-status to REFUNDED",
+            "result": null
+          }
+  - name: Error 2 - PAID to FAILED
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=FAILED
+      method: PUT
+      params:
+        - name: status
+          value: FAILED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:40:20 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PAID payment-status to FAILED",
+            "result": null
+          }
+  - name: Error 2 - PAID to PENDING
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=PENDING
+      method: PUT
+      params:
+        - name: status
+          value: PENDING
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:41:11 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PAID payment-status to PENDING",
+            "result": null
+          }
+  - name: Success 2 - PAID to REFUND_IN_PROCESS
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUND_IN_PROCESS
+      method: PUT
+      params:
+        - name: status
+          value: REFUND_IN_PROCESS
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:50:47 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order payment status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "RETURN_STARTED",
+              "paymentStatus": "REFUND_IN_PROCESS",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": "2026-06-02T07:49:40.284",
+              "refundDate": null,
+              "addedOn": "2026-05-31T10:07:05.627004",
+              "updatedOn": "2026-06-02T08:20:45.8551593"
+            }
+          }
+  - name: Success 3 - REFUND_IN_PROCESS to REFUNDED
+    request:
+      url: http://localhost:9090/order/payment-status/1?status=REFUNDED
+      method: PUT
+      params:
+        - name: status
+          value: REFUNDED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:03:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order payment status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "RETURN_STARTED",
+              "paymentStatus": "REFUNDED",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": "2026-06-02T07:49:40.284",
+              "refundDate": "2026-06-02T08:33:45.5851906",
+              "addedOn": "2026-05-31T10:07:05.627004",
+              "updatedOn": "2026-06-02T08:33:45.8808835"
+            }
+          }
+  - name: Success 4 - PENDING to FAILED
+    request:
+      url: http://localhost:9090/order/payment-status/2?status=FAILED
+      method: PUT
+      params:
+        - name: status
+          value: FAILED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:18:52 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order payment status updated successfully",
+            "result": {
+              "orderId": 2,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 61999.52,
+              "actualPrice": 54899.57,
+              "orderStatus": "PENDING",
+              "paymentStatus": "FAILED",
+              "orderItems": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": null,
+              "refundDate": null,
+              "addedOn": "2026-05-31T11:03:49.066712",
+              "updatedOn": "2026-06-02T08:48:52.0354758"
+            }
+          }
+  - name: Success 5 - FAILED to PENDING
+    request:
+      url: http://localhost:9090/order/payment-status/2?status=PENDING
+      method: PUT
+      params:
+        - name: status
+          value: PENDING
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:19:19 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order payment status updated successfully",
+            "result": {
+              "orderId": 2,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 61999.52,
+              "actualPrice": 54899.57,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": null,
+              "refundDate": null,
+              "addedOn": "2026-05-31T11:03:49.066712",
+              "updatedOn": "2026-06-02T08:49:19.0841025"
+            }
+          }

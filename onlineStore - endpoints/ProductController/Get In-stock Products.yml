@@ -1,0 +1,125 @@
+info:
+  name: Get In-stock Products
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: http://localhost:9090/product/in-stock?pageNumber=0&pageSize=5
+  params:
+    - name: pageNumber
+      value: "0"
+      type: query
+    - name: pageSize
+      value: "5"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1 - pageNo, pageSize null
+    request:
+      url: http://localhost:9090/product/in-stock
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:35:37 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "In-stock products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 1,
+                  "title": "Product 01",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                },
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 79.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }
+  - name: success 2 - page 0 - sortDir default
+    request:
+      url: http://localhost:9090/product/in-stock?pageNumber=0&pageSize=5
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "5"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:36:49 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "In-stock products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 1,
+                  "title": "Product 01",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                },
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 79.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 5,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }

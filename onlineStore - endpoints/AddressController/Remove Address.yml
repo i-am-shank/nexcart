@@ -1,0 +1,145 @@
+info:
+  name: Remove Address
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: http://localhost:9090/address/1/user/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Error 1 - only address
+    request:
+      url: http://localhost:9090/address/3/user/3
+      method: DELETE
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:23:27 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot find any other user address for userId : 3",
+            "result": null
+          }
+  - name: Error 2 - Invalid userId
+    request:
+      url: http://localhost:9090/address/3/user/389
+      method: DELETE
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:23:48 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 3 for userId : 389",
+            "result": null
+          }
+  - name: Error 2 - invalid addressId
+    request:
+      url: http://localhost:9090/address/3234/user/3
+      method: DELETE
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:24:12 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 3234 for userId : 3",
+            "result": null
+          }
+  - name: Success 1
+    request:
+      url: http://localhost:9090/address/2/user/2
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:25:14 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address removed successfully",
+            "result": null
+          }
+  - name: Success 2 - user Address list mapped - current address removed
+    request:
+      url: http://localhost:9090/address/1/user/2
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 26 May 2026 04:08:59 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address removed successfully",
+            "result": null
+          }

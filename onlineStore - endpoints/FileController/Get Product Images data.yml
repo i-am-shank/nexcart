@@ -1,0 +1,161 @@
+info:
+  name: Get Product Images data
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: http://localhost:9090/file/product/5
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1
+    request:
+      url: http://localhost:9090/file/product/4
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 18:45:04 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product images data fetched successfully",
+            "result": [
+              {
+                "fileId": 3,
+                "fileName": "CT-X8070IN - CASIO INDIA.jpg",
+                "contentType": "image/jpeg",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 4,
+                "addedOn": "2026-05-07T00:12:49.462702",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: success 2
+    request:
+      url: http://localhost:9090/file/product/4
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 18:50:20 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product images data fetched successfully",
+            "result": [
+              {
+                "fileId": 3,
+                "fileName": "CT-X8070IN - CASIO INDIA.jpg",
+                "contentType": "image/jpeg",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 4,
+                "addedOn": "2026-05-07T00:12:49.462702",
+                "updatedOn": null
+              },
+              {
+                "fileId": 4,
+                "fileName": "Casio CT-X870IN 61-Key Portable keyboard - Amazon.jpg",
+                "contentType": "image/jpeg",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 4,
+                "addedOn": "2026-05-07T00:15:44.906223",
+                "updatedOn": null
+              },
+              {
+                "fileId": 5,
+                "fileName": "Casio CTX - 870IN Features - flipkart.png",
+                "contentType": "image/png",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 4,
+                "addedOn": "2026-05-07T00:19:02.789274",
+                "updatedOn": null
+              }
+            ]
+          }
+  - name: success 3 - png, jpg, jpeg
+    request:
+      url: http://localhost:9090/file/product/5
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 07 May 2026 04:16:50 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product images data fetched successfully",
+            "result": [
+              {
+                "fileId": 6,
+                "fileName": "roland FP 10 - Amazon.jpg",
+                "contentType": "image/jpeg",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 5,
+                "addedOn": "2026-05-07T09:27:55.490179",
+                "updatedOn": null
+              },
+              {
+                "fileId": 7,
+                "fileName": "Roland FP 10 Digital Piano - Music stores.jpeg",
+                "contentType": "image/jpeg",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 5,
+                "addedOn": "2026-05-07T09:46:30.039737",
+                "updatedOn": null
+              },
+              {
+                "fileId": 8,
+                "fileName": "Roland FP-10 Digital Piano - Piano Buyer.png",
+                "contentType": "image/png",
+                "fileType": "PRODUCT_IMAGE",
+                "parentEntityId": 5,
+                "addedOn": "2026-05-07T09:46:42.572183",
+                "updatedOn": null
+              }
+            ]
+          }

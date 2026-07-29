@@ -1,0 +1,51 @@
+info:
+  name: Get File
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: http://localhost:9090/file/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Get File - success - 1
+    request:
+      url: http://localhost:9090/file/1
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 28 Apr 2026 17:39:10 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "File details fetched successfully",
+            "result": {
+              "fileId": 1,
+              "fileName": "MSD - The Indian mens cricket team captain.jpg",
+              "contentType": "image/jpeg",
+              "fileType": "USER_IMAGE",
+              "parentEntityId": 7,
+              "addedOn": "2026-04-28T23:07:53.436634",
+              "updatedOn": null
+            }
+          }

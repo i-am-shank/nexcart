@@ -1,0 +1,139 @@
+info:
+  name: Get Order Item
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:9090/order-item/9999
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1 - item 1
+    request:
+      url: http://localhost:9090/order-item/1
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:16:39 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItem fetched successfully",
+            "result": {
+              "orderItemId": 1,
+              "orderId": null,
+              "product": {
+                "productId": 7,
+                "title": "Nike Strike Football",
+                "description": "FIFA-approved training football with durable outer casing",
+                "price": 1899.50,
+                "discountPercentage": 10.0,
+                "remainingQuantity": 38,
+                "inStock": true,
+                "categoryResponseDTO": {
+                  "categoryId": 4,
+                  "title": "Sports",
+                  "description": "Sports, Fitness ",
+                  "coverImageFileId": 9
+                },
+                "files": []
+              },
+              "quantity": 2,
+              "totalAmount": 3799.00,
+              "actualAmount": 3419.10
+            }
+          }
+  - name: Success 1 - item 2
+    request:
+      url: http://localhost:9090/order-item/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:16:59 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItem fetched successfully",
+            "result": {
+              "orderItemId": 2,
+              "orderId": null,
+              "product": {
+                "productId": 9,
+                "title": "Adidas Football Shoes",
+                "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                "price": 4599.75,
+                "discountPercentage": 12.0,
+                "remainingQuantity": 15,
+                "inStock": true,
+                "categoryResponseDTO": {
+                  "categoryId": 4,
+                  "title": "Sports",
+                  "description": "Sports, Fitness ",
+                  "coverImageFileId": 9
+                },
+                "files": []
+              },
+              "quantity": 1,
+              "totalAmount": 4599.75,
+              "actualAmount": 4047.78
+            }
+          }
+  - name: Error 1 - orderItem not found
+    request:
+      url: http://localhost:9090/order-item/9999
+      method: GET
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:17:19 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: orderItem not found for id : 9999",
+            "result": null
+          }

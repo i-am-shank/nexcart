@@ -1,0 +1,193 @@
+info:
+  name: Get Order
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: http://localhost:9090/order/1/user/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/order/1/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:09:02 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order details retrieved successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": null
+            }
+          }
+  - name: Success 2
+    request:
+      url: http://localhost:9090/order/2/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:34:36 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order details retrieved successfully",
+            "result": {
+              "orderId": 2,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 61999.52,
+              "actualPrice": 54899.57,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": null
+            }
+          }

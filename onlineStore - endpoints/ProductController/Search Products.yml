@@ -1,0 +1,312 @@
+info:
+  name: Search Products
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:9090/product/search?searchKeyword=Product&pageNumber=0&pageSize=2&sortBy=productPrice&sortDirection=DESC
+  params:
+    - name: searchKeyword
+      value: Product
+      type: query
+    - name: pageNumber
+      value: "0"
+      type: query
+    - name: pageSize
+      value: "2"
+      type: query
+    - name: sortBy
+      value: productPrice
+      type: query
+    - name: sortDirection
+      value: DESC
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1 - pageNo, pageSize null
+    request:
+      url: http://localhost:9090/product/search?searchKeyword=02
+      method: GET
+      params:
+        - name: searchKeyword
+          value: "02"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:23:36 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 1,
+              "totalElements": 1,
+              "totalPages": 1
+            }
+          }
+  - name: success 2 - page 0 - sortDir default
+    request:
+      url: http://localhost:9090/product/search?searchKeyword=Product&pageNumber=0&pageSize=1&sortBy=price
+      method: GET
+      params:
+        - name: searchKeyword
+          value: Product
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: sortBy
+          value: price
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:27:00 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 79.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": false,
+              "pageNumber": 0,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: success 2 - page 1 - sortDir default
+    request:
+      url: http://localhost:9090/product/search?searchKeyword=Product&pageNumber=1&pageSize=1&sortBy=price
+      method: GET
+      params:
+        - name: searchKeyword
+          value: Product
+          type: query
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: sortBy
+          value: price
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:28:56 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 1,
+                  "title": "Product 01",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: success 3 - page 0, pageSize 2 - sortDir desc
+    request:
+      url: http://localhost:9090/product/search?searchKeyword=Product&pageNumber=0&pageSize=2&sortBy=price&sortDirection=DESC
+      method: GET
+      params:
+        - name: searchKeyword
+          value: Product
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "2"
+          type: query
+        - name: sortBy
+          value: price
+          type: query
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:29:51 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 1,
+                  "title": "Product 01",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                },
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 79.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }
+  - name: success 4 - page 0, pageSize 2 - sortBy default (name) - desc
+    request:
+      url: http://localhost:9090/product/search?searchKeyword=Product&pageNumber=0&pageSize=2&sortBy=productPrice&sortDirection=DESC
+      method: GET
+      params:
+        - name: searchKeyword
+          value: Product
+          type: query
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "2"
+          type: query
+        - name: sortBy
+          value: productPrice
+          type: query
+        - name: sortDirection
+          value: DESC
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:31:28 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched products fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "productId": 2,
+                  "title": "Product 02",
+                  "price": 79.89,
+                  "discountPercentage": 13.0
+                },
+                {
+                  "productId": 1,
+                  "title": "Product 01",
+                  "price": 99.89,
+                  "discountPercentage": 13.0
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }

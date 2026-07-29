@@ -1,0 +1,43 @@
+info:
+  name: Save For Later Item
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: http://localhost:9090/cart-item/saveForLater/3
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/cart-item/saveForLater/1
+      method: PUT
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 20 May 2026 04:45:11 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Cart Item saved for later",
+            "result": null
+          }

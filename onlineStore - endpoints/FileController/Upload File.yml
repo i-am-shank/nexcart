@@ -1,0 +1,78 @@
+info:
+    name: Upload File
+    type: http
+    seq: 1
+
+http:
+    method: POST
+    url: http://localhost:9090/file/upload?fileType=USER_IMAGE&parentEntityId=7
+    params:
+        - name: fileType
+          value: USER_IMAGE
+          type: query
+        - name: parentEntityId
+          value: "7"
+          type: query
+    body:
+        type: multipart-form
+        data:
+            - name: file
+              type: file
+              value: &a1
+                  - C:\Users\shash\OneDrive\Pictures\Wallpapers\idols\MSD - The Indian mens cricket team captain.jpg
+    auth: inherit
+
+settings:
+    encodeUrl: true
+    timeout: 0
+    followRedirects: true
+    maxRedirects: 5
+
+examples:
+    - name: Upload File - success - 1 (jpeg)
+      request:
+          url: http://localhost:9090/file/upload?fileType=USER_IMAGE&parentEntityId=7
+          method: POST
+          params:
+              - name: fileType
+                value: USER_IMAGE
+                type: query
+              - name: parentEntityId
+                value: "7"
+                type: query
+          body:
+              type: multipart-form
+              data:
+                  - name: file
+                    type: file
+                    value: *a1
+      response:
+          status: 200
+          statusText: OK
+          headers:
+              - name: content-type
+                value: application/json
+              - name: transfer-encoding
+                value: chunked
+              - name: date
+                value: Tue, 28 Apr 2026 17:38:06 GMT
+              - name: keep-alive
+                value: timeout=60
+              - name: connection
+                value: keep-alive
+          body:
+              type: json
+              data: |-
+                  {
+                    "status": 200,
+                    "message": "File uploaded successfully",
+                    "result": {
+                      "fileId": 1,
+                      "fileName": "MSD - The Indian mens cricket team captain.jpg",
+                      "contentType": "image/jpeg",
+                      "fileType": "USER_IMAGE",
+                      "parentEntityId": 7,
+                      "addedOn": "2026-04-28T23:07:53.4366341",
+                      "updatedOn": null
+                    }
+                  }

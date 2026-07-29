@@ -1,0 +1,97 @@
+info:
+  name: Create Cart
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9090/cart/user/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/cart/user/2
+      method: POST
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 20 May 2026 03:52:44 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Cart created successfully",
+            "result": {
+              "cartId": 1,
+              "userId": 2,
+              "totalItems": 0,
+              "totalAmount": 0,
+              "cartItems": []
+            }
+          }
+  - name: Error 1 - user not found
+    request:
+      url: http://localhost:9090/cart/user/204
+      method: POST
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 20 May 2026 03:53:13 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "Invalid request: User not found with userId : 204",
+            "result": null
+          }
+  - name: Error 2 - cart already exists
+    request:
+      url: http://localhost:9090/cart/user/2
+      method: POST
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 20 May 2026 04:19:57 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cart already exists for userId : 2",
+            "result": null
+          }

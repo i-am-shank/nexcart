@@ -1,0 +1,69 @@
+info:
+  name: Delete User
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: http://localhost:9090/users/4
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Delete User - error - 1
+    request:
+      url: http://localhost:9090/users/532
+      method: DELETE
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:40:06 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found : User not found for id : 532",
+            "result": null
+          }
+  - name: Delete User - success - 1
+    request:
+      url: http://localhost:9090/users/1
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:40:24 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User deleted successfully",
+            "result": null
+          }

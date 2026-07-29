@@ -1,0 +1,81 @@
+info:
+  name: Clear Cart
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: http://localhost:9090/cart/clear/user/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/cart/clear/user/7
+      method: PUT
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 21 May 2026 04:37:57 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Cart cleared successfully",
+            "result": {
+              "cartId": 2,
+              "userId": 7,
+              "totalItems": 0,
+              "totalAmount": 0.00,
+              "cartItems": []
+            }
+          }
+  - name: Success 2 - inventory management fixed
+    request:
+      url: http://localhost:9090/cart/clear/user/2
+      method: PUT
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 03:11:47 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Cart cleared successfully",
+            "result": {
+              "cartId": 1,
+              "userId": 2,
+              "totalItems": 0,
+              "totalAmount": 0.00,
+              "cartItems": []
+            }
+          }

@@ -1,0 +1,95 @@
+info:
+  name: Mark Address as Current
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: http://localhost:9090/address/3/mark-current/user/3
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Error 1 - userId not found
+    request:
+      url: http://localhost:9090/address/0/mark-current/user/456
+      method: PUT
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:18:53 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 0 for userId : 456",
+            "result": null
+          }
+  - name: Error 1 - Address not found
+    request:
+      url: http://localhost:9090/address/234/mark-current/user/2
+      method: PUT
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:19:21 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 234 for userId : 2",
+            "result": null
+          }
+  - name: Success 1
+    request:
+      url: http://localhost:9090/address/2/mark-current/user/2
+      method: PUT
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 25 May 2026 18:20:21 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Current address updated for user",
+            "result": null
+          }

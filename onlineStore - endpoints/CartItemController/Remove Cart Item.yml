@@ -1,0 +1,43 @@
+info:
+  name: Remove Cart Item
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: http://localhost:9090/cart-item/5
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/cart-item/1
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 20 May 2026 05:01:17 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "CartItem removed successfully",
+            "result": null
+          }

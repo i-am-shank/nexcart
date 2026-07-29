@@ -1,0 +1,109 @@
+Project Requirements ====================
+
+
+Tech pointers :
+
+->  Spring core, Spring MVC, Spring boot
+->  Database (MySQL)
+->  Spring Data JPA - ORM , mapping
+
+
+Requirements :
+
+->  Scalable web application, to sell products online (big store)
+->  Backend  :  Spring Boot (not microservice for now)
+
+
+------------------------------------------------------------
+
+
+Project Modules =====================
+
+
+1. User Module
+
+->  CRUD , Search-user 
+->  authentication (for accessing project) 
+->  authorization (user-role based)
+
+
+2. Role Module
+
+->  Every user has a role
+->  used for authorization
+
+
+3. Product Module
+
+->  CRUD
+->  Search-product
+
+
+4. Category Module
+
+->  Categories products
+
+
+5. Sub-Category Module
+
+->  required if project is much scaled-up
+->  "Trending" 
+->  "Mobile Phones" under "Electronics" category
+
+
+6. Cart Module
+
+->  every user has a Cart
+->  In most projects, this is managed from frontend
+
+
+7. Order Module
+
+->  can contain multiple products
+
+
+------------------------------------------------------------
+
+
+Cart Module :-
+
+1. User login required to perform cart operation (assumption in beginning)
+    ->  userId fetched from request
+    ->  Which user's cart to access
+
+2. User <-> Cart    :    One-on-One mapping
+
+3. Product not directly added to Cart  -  quantity management required
+    ->  CartItem - table    (productId , quantity , cartId)
+
+Dependencies :  (logging just to avoid Circular-dependency issue)
+cartItemService  ->  cartItemRepository , productRepository , cartRepository , userRepository , cartService
+cartService  ->  cartRepository , userRepository , productRepository , cartItemRepository
+
+
+------------------------------------------------------------
+
+
+Order Module :-
+
+Entities :-
+    1. Order
+        ->  orderId, userId, addressId (one of user's), totalAmount, paidAmount
+        ->  One-to-Many relation b/w Order & OrderItem
+    2. OrderItem
+        ->  orderItemId, orderId, productId, quantity, totalAmount, paidAmount
+
+Related changes :-
+    ->  Create Address entity
+        ->  addressId, userId, name, building, street, city, state, pinCode, phoneNo
+    ->  Add One-to-Many mapping b/w User & Address
+
+
+------------------------------------------------------------
+
+
+Future changes :-
+    ->  Create an entity Invoice
+    ->  Invoice :-
+        ->  invoiceId, orderId, Order-details, OrderItem-details, Product-details, user-details, address
+        ->  Can add Invoice PDF download functionality  (based on orderId)

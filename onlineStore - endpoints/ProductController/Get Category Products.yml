@@ -1,0 +1,15 @@
+info:
+  name: Get Category Products
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: http://localhost:9090/product/category/12
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

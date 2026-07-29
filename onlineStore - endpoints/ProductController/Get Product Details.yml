@@ -1,0 +1,187 @@
+info:
+  name: Get Product Details
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: http://localhost:9090/product/8
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1 - inStock true
+    request:
+      url: http://localhost:9090/product/1
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 05 May 2026 03:42:45 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product details fetched successfully",
+            "result": {
+              "productId": 1,
+              "title": "Product 01",
+              "description": "product 01 desc",
+              "price": 99.89,
+              "discountPercentage": 13.0,
+              "remainingQuantity": 16,
+              "inStock": true
+            }
+          }
+  - name: success 2 - inStock false
+    request:
+      url: http://localhost:9090/product/3
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:39:06 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product details fetched successfully",
+            "result": {
+              "productId": 3,
+              "title": "Product 03",
+              "description": "product 03 desc",
+              "price": 149.89,
+              "discountPercentage": 15.0,
+              "remainingQuantity": 3,
+              "inStock": false
+            }
+          }
+  - name: error 1 - product not found
+    request:
+      url: http://localhost:9090/product/3
+      method: GET
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:41:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Product not found with id : 3",
+            "result": null
+          }
+  - name: success 3 - inStock true
+    request:
+      url: http://localhost:9090/product/5
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Thu, 07 May 2026 03:49:29 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product details fetched successfully",
+            "result": {
+              "productId": 5,
+              "title": "Roland FP-10",
+              "description": "Digital Piano, 88-keys weighted touch sensitive",
+              "price": 54999.54,
+              "discountPercentage": 11.0,
+              "remainingQuantity": 8,
+              "inStock": true,
+              "files": []
+            }
+          }
+  - name: success 4 - product category
+    request:
+      url: http://localhost:9090/product/8
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 18:05:42 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product details fetched successfully",
+            "result": {
+              "productId": 8,
+              "title": "SG Kashmir Willow Cricket Bat",
+              "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+              "price": 3499.99,
+              "discountPercentage": 15.0,
+              "remainingQuantity": 20,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 4,
+                "title": "Sports",
+                "description": "Sports, Fitness ",
+                "coverImageFileId": 9
+              },
+              "files": []
+            }
+          }

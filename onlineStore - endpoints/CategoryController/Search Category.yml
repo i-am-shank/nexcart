@@ -1,0 +1,167 @@
+info:
+  name: Search Category
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:9090/category/search/ts?pageNumber=1&pageSize=1
+  params:
+    - name: pageNumber
+      value: "1"
+      type: query
+    - name: pageSize
+      value: "1"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Search Category - success 1
+    request:
+      url: http://localhost:9090/category/search/ts
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:21:34 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched categories fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "categoryId": 2,
+                  "title": "Musical Instruments",
+                  "description": "Everything a musician needs, all at one place !",
+                  "coverImageFileId": null
+                },
+                {
+                  "categoryId": 3,
+                  "title": "Fruits and Vegetables",
+                  "description": "All kinds of fruits, veggies you wanna buy",
+                  "coverImageFileId": null
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }
+  - name: Search Category - success 1 - pageNo 0 , pageSize 1
+    request:
+      url: http://localhost:9090/category/search/ts?pageNumber=0&pageSize=1
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:22:09 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched categories fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "categoryId": 2,
+                  "title": "Musical Instruments",
+                  "description": "Everything a musician needs, all at one place !",
+                  "coverImageFileId": null
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": false,
+              "pageNumber": 0,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: Search Category - success 1 - pageNo 1 , pageSize 1
+    request:
+      url: http://localhost:9090/category/search/ts?pageNumber=1&pageSize=1
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:22:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Searched categories fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "categoryId": 3,
+                  "title": "Fruits and Vegetables",
+                  "description": "All kinds of fruits, veggies you wanna buy",
+                  "coverImageFileId": null
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }

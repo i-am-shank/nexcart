@@ -1,0 +1,510 @@
+info:
+  name: Get Orders for Address
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:9090/order/address/4/user/2?pageNumber=1&pageSize=0
+  params:
+    - name: pageNumber
+      value: "1"
+      type: query
+    - name: pageSize
+      value: "0"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1 - all orders
+    request:
+      url: http://localhost:9090/order/address/4/user/2
+      method: get
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:43:30 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 1,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 8398.75,
+                  "actualPrice": 7466.88,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                },
+                {
+                  "orderId": 2,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 61999.52,
+                  "actualPrice": 54899.57,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }
+  - name: Success 1 - last 30 days
+    request:
+      url: http://localhost:9090/order/address/4/user/2?orderPeriod=LAST_30_DAYS
+      method: GET
+      params:
+        - name: orderPeriod
+          value: LAST_30_DAYS
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:44:01 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 1,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 8398.75,
+                  "actualPrice": 7466.88,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                },
+                {
+                  "orderId": 2,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 61999.52,
+                  "actualPrice": 54899.57,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 2,
+              "totalElements": 2,
+              "totalPages": 1
+            }
+          }
+  - name: Success 1 - page 0, size 1
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=0&pageSize=1
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:45:18 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 1,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 8398.75,
+                  "actualPrice": 7466.88,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": false,
+              "pageNumber": 0,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: Success 1 - page 1, size 1
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=1&pageSize=1
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:45:50 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 2,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 61999.52,
+                  "actualPrice": 54899.57,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: Success 1 - page 0, size 1, last 1 year
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=0&pageSize=1&orderPeriod=LAST_1_YEAR
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: orderPeriod
+          value: LAST_1_YEAR
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:49:32 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 1,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 8398.75,
+                  "actualPrice": 7466.88,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": false,
+              "pageNumber": 0,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: Success 1 - page 1, size 1, last 1 year
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=1&pageSize=1&orderPeriod=LAST_1_YEAR
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+        - name: orderPeriod
+          value: LAST_1_YEAR
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:50:22 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Address orders retrieved successfully",
+            "result": {
+              "items": [
+                {
+                  "orderId": 2,
+                  "userId": null,
+                  "address": {
+                    "addressId": 4,
+                    "userId": 2,
+                    "name": "Aman Verma",
+                    "building": "House 45B",
+                    "street": "Park Street",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "pinCode": "700016",
+                    "phoneNumber": "9123456780",
+                    "isCurrent": true,
+                    "addedOn": "2026-05-26T09:36:11.712587",
+                    "updatedOn": "2026-05-26T09:38:59.022219"
+                  },
+                  "totalPrice": 61999.52,
+                  "actualPrice": 54899.57,
+                  "orderStatus": "PENDING",
+                  "paymentStatus": "PENDING"
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 1,
+              "totalElements": 2,
+              "totalPages": 2
+            }
+          }
+  - name: Error 1 - invalid pageNumber
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=-1&pageSize=1
+      method: GET
+      params:
+        - name: pageNumber
+          value: "-1"
+          type: query
+        - name: pageSize
+          value: "1"
+          type: query
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:51:20 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "Invalid request: pageNumber cannot be negative",
+            "result": null
+          }
+  - name: Error 1 - invalid pageSize
+    request:
+      url: http://localhost:9090/order/address/4/user/2?pageNumber=1&pageSize=0
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "0"
+          type: query
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:51:47 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "Invalid request: pageSize should be positive",
+            "result": null
+          }

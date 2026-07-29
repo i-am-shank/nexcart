@@ -1,0 +1,56 @@
+info:
+  name: Update Category
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: http://localhost:9090/category/2?description=Everything a musician needs, all at one place !
+  params:
+    - name: description
+      value: Everything a musician needs, all at one place !
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Update Category - success 1
+    request:
+      url: http://localhost:9090/category/2?description=Everything a musician needs, all at one place !
+      method: PUT
+      params:
+        - name: description
+          value: Everything a musician needs, all at one place !
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:20:43 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category updated successfully",
+            "result": {
+              "categoryId": 2,
+              "title": "Musical Instruments",
+              "description": "Everything a musician needs, all at one place !",
+              "coverImageFileId": null
+            }
+          }

@@ -1,0 +1,449 @@
+info:
+  name: Get OrderItems for User
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: http://localhost:9090/order-item/user/2?pageNumber=1&pageSize=0
+  params:
+    - name: pageNumber
+      value: "1"
+      type: query
+    - name: pageSize
+      value: "0"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1 - all OrderItem
+    request:
+      url: http://localhost:9090/order-item/user/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:26:01 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItems for user fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                },
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 2,
+                      "title": "Musical Instruments",
+                      "description": "Everything a musician needs, all at one place !",
+                      "coverImageFileId": null
+                    },
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 4,
+              "totalElements": 4,
+              "totalPages": 1
+            }
+          }
+  - name: Success 1 - page 0, size 2
+    request:
+      url: http://localhost:9090/order-item/user/2?pageNumber=0&pageSize=2
+      method: GET
+      params:
+        - name: pageNumber
+          value: "0"
+          type: query
+        - name: pageSize
+          value: "2"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:26:40 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItems for user fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "isFirstPage": true,
+              "isLastPage": false,
+              "pageNumber": 0,
+              "pageSize": 2,
+              "totalElements": 4,
+              "totalPages": 2
+            }
+          }
+  - name: Success 1 - page 1, size 2
+    request:
+      url: http://localhost:9090/order-item/user/2?pageNumber=1&pageSize=2
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "2"
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:27:08 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItems for user fetched successfully",
+            "result": {
+              "items": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 2,
+                      "title": "Musical Instruments",
+                      "description": "Everything a musician needs, all at one place !",
+                      "coverImageFileId": null
+                    },
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": {
+                      "categoryId": 4,
+                      "title": "Sports",
+                      "description": "Sports, Fitness ",
+                      "coverImageFileId": 9
+                    },
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "isFirstPage": false,
+              "isLastPage": true,
+              "pageNumber": 1,
+              "pageSize": 2,
+              "totalElements": 4,
+              "totalPages": 2
+            }
+          }
+  - name: Success 2 - no OrderItem, existing user
+    request:
+      url: http://localhost:9090/order-item/user/7
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:27:53 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "OrderItems for user fetched successfully",
+            "result": {
+              "items": [],
+              "isFirstPage": true,
+              "isLastPage": true,
+              "pageNumber": 0,
+              "pageSize": 0,
+              "totalElements": 0,
+              "totalPages": 1
+            }
+          }
+  - name: Error 1 - user not found
+    request:
+      url: http://localhost:9090/order-item/user/7999
+      method: GET
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:28:14 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: user not found for id : 7999",
+            "result": null
+          }
+  - name: Error 1 - invalid page no.
+    request:
+      url: http://localhost:9090/order-item/user/2?pageNumber=-1&pageSize=2
+      method: GET
+      params:
+        - name: pageNumber
+          value: "-1"
+          type: query
+        - name: pageSize
+          value: "2"
+          type: query
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:29:07 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "Invalid request: pageNumber cannot be negative",
+            "result": null
+          }
+  - name: Error 1 - invalid pageSize
+    request:
+      url: http://localhost:9090/order-item/user/2?pageNumber=1&pageSize=0
+      method: GET
+      params:
+        - name: pageNumber
+          value: "1"
+          type: query
+        - name: pageSize
+          value: "0"
+          type: query
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:29:24 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "Invalid request: pageSize cannot be non-positive",
+            "result": null
+          }

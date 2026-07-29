@@ -1,0 +1,941 @@
+info:
+  name: Update Order Status
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: http://localhost:9090/order/status/2?status=CANCELLED
+  params:
+    - name: status
+      value: CANCELLED
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Error 1 - PENDING to DELIVERED
+    request:
+      url: http://localhost:9090/order/status/1?status=DELIVERED
+      method: PUT
+      params:
+        - name: status
+          value: DELIVERED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 13:56:54 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PENDING order to DELIVERED",
+            "result": null
+          }
+  - name: Error 1 - PENDING to DISPATCHED, un-paid order
+    request:
+      url: http://localhost:9090/order/status/1?status=DISPATCHED
+      method: PUT
+      params:
+        - name: status
+          value: DISPATCHED
+          type: query
+    response:
+      status: 409
+      statusText: Conflict
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 15:31:15 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 409,
+            "message": "Illegal state reached : Cannot DISPATCH order, if not PAID",
+            "result": null
+          }
+  - name: Success 1 - PENDING to DISPATCHED, paid order
+    request:
+      url: http://localhost:9090/order/status/1?status=DISPATCHED
+      method: PUT
+      params:
+        - name: status
+          value: DISPATCHED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 15:59:24 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "DISPATCHED",
+              "paymentStatus": "PAID",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": null
+            }
+          }
+  - name: Error 2 - DISPATCHED to PENDING
+    request:
+      url: http://localhost:9090/order/status/1?status=PENDING
+      method: PUT
+      params:
+        - name: status
+          value: PENDING
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 01 Jun 2026 03:04:11 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DISPATCHED order to PENDING",
+            "result": null
+          }
+  - name: Error 2 - DISPATCHED to RETURN_STARTED
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURN_STARTED
+      method: PUT
+      params:
+        - name: status
+          value: RETURN_STARTED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:16:53 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DISPATCHED order to RETURN_STARTED",
+            "result": null
+          }
+  - name: Error 2 - DISPATCHED to RETURNED
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURNED
+      method: PUT
+      params:
+        - name: status
+          value: RETURNED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:18:03 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DISPATCHED order to RETURNED",
+            "result": null
+          }
+  - name: Error 2 - DISPATCHED to CANCELLED
+    request:
+      url: http://localhost:9090/order/status/1?status=CANCELLED
+      method: PUT
+      params:
+        - name: status
+          value: CANCELLED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:18:45 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DISPATCHED order to CANCELLED",
+            "result": null
+          }
+  - name: Success 2 - DISPATCHED to DELIVERED
+    request:
+      url: http://localhost:9090/order/status/1?status=DELIVERED
+      method: PUT
+      params:
+        - name: status
+          value: DELIVERED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:19:41 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "DELIVERED",
+              "paymentStatus": "PAID",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": "2026-06-02T07:49:40.2843391",
+              "refundDate": null
+            }
+          }
+  - name: Error 3 - DELIVERED to RETURNED
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURNED
+      method: PUT
+      params:
+        - name: status
+          value: RETURNED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:20:38 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DELIVERED order to RETURNED",
+            "result": null
+          }
+  - name: Error 3 - DELIVERED to CANCELLED
+    request:
+      url: http://localhost:9090/order/status/1?status=CANCELLED
+      method: PUT
+      params:
+        - name: status
+          value: CANCELLED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:21:06 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DELIVERED order to CANCELLED",
+            "result": null
+          }
+  - name: Error 3 - DELIVERED to PENDING
+    request:
+      url: http://localhost:9090/order/status/1?status=PENDING
+      method: PUT
+      params:
+        - name: status
+          value: PENDING
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:21:40 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DELIVERED order to PENDING",
+            "result": null
+          }
+  - name: Error 3 - DELIVERED to DISPATCHED
+    request:
+      url: http://localhost:9090/order/status/1?status=DISPATCHED
+      method: PUT
+      params:
+        - name: status
+          value: DISPATCHED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:22:08 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update DELIVERED order to DISPATCHED",
+            "result": null
+          }
+  - name: Error 3 - DELIVERED to RETURN_STARTED, deliveryDate > 10 days
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURN_STARTED
+      method: PUT
+      params:
+        - name: status
+          value: RETURN_STARTED
+          type: query
+    response:
+      status: 409
+      statusText: Conflict
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:24:35 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 409,
+            "message": "Illegal state reached : Cannot RETURN order, if delivered more than 10 days ago",
+            "result": null
+          }
+  - name: Success 3 - DELIVERED to RETURN_STARTED, deliveryDate < 10 days
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURN_STARTED
+      method: PUT
+      params:
+        - name: status
+          value: RETURN_STARTED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:31:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "RETURN_STARTED",
+              "paymentStatus": "PAID",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": "2026-06-02T07:49:40.284",
+              "refundDate": null
+            }
+          }
+  - name: Error 4 - RETURN_STARTED to RETURNED, not REFUNDED
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURNED
+      method: PUT
+      params:
+        - name: status
+          value: RETURNED
+          type: query
+    response:
+      status: 409
+      statusText: Conflict
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:58:25 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 409,
+            "message": "Illegal state reached : Cannot update order to RETURNED, if not REFUNDED",
+            "result": null
+          }
+  - name: Error 4 - RETURN_STARTED to CANCELLED
+    request:
+      url: http://localhost:9090/order/status/1?status=CANCELLED
+      method: PUT
+      params:
+        - name: status
+          value: CANCELLED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:59:13 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update RETURN_STARTED order to CANCELLED",
+            "result": null
+          }
+  - name: Error 4 - RETURN_STARTED to DELIVERED
+    request:
+      url: http://localhost:9090/order/status/1?status=DELIVERED
+      method: PUT
+      params:
+        - name: status
+          value: DELIVERED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 02:59:42 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update RETURN_STARTED order to DELIVERED",
+            "result": null
+          }
+  - name: Success 4 - RETURN_STARTED to RETURNED, REFUNDED
+    request:
+      url: http://localhost:9090/order/status/1?status=RETURNED
+      method: PUT
+      params:
+        - name: status
+          value: RETURNED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:05:12 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order status updated successfully",
+            "result": {
+              "orderId": 1,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 8398.75,
+              "actualPrice": 7466.88,
+              "orderStatus": "RETURNED",
+              "paymentStatus": "REFUNDED",
+              "orderItems": [
+                {
+                  "orderItemId": 1,
+                  "orderId": null,
+                  "product": {
+                    "productId": 7,
+                    "title": "Nike Strike Football",
+                    "description": "FIFA-approved training football with durable outer casing",
+                    "price": 1899.50,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 38,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 3799.00,
+                  "actualAmount": 3419.10
+                },
+                {
+                  "orderItemId": 2,
+                  "orderId": null,
+                  "product": {
+                    "productId": 9,
+                    "title": "Adidas Football Shoes",
+                    "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                    "price": 4599.75,
+                    "discountPercentage": 12.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 4599.75,
+                  "actualAmount": 4047.78
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": "2026-06-02T07:49:40.284",
+              "refundDate": "2026-06-02T08:33:45.585191",
+              "addedOn": "2026-05-31T10:07:05.627004",
+              "updatedOn": "2026-06-02T08:35:12.1406954"
+            }
+          }
+  - name: Error 5 - PENDING to RETURN_STARTED
+    request:
+      url: http://localhost:9090/order/status/2?status=RETURN_STARTED
+      method: PUT
+      params:
+        - name: status
+          value: RETURN_STARTED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:07:40 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PENDING order to RETURN_STARTED",
+            "result": null
+          }
+  - name: Error 5 - PENDING to RETURNED
+    request:
+      url: http://localhost:9090/order/status/2?status=RETURNED
+      method: PUT
+      params:
+        - name: status
+          value: RETURNED
+          type: query
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:16:11 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot update PENDING order to RETURNED",
+            "result": null
+          }
+  - name: Success 5 - PENDING to CANCELLED
+    request:
+      url: http://localhost:9090/order/status/2?status=CANCELLED
+      method: PUT
+      params:
+        - name: status
+          value: CANCELLED
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:20:03 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order status updated successfully",
+            "result": {
+              "orderId": 2,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 61999.52,
+              "actualPrice": 54899.57,
+              "orderStatus": "CANCELLED",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": null,
+              "refundDate": null,
+              "addedOn": "2026-05-31T11:03:49.066712",
+              "updatedOn": "2026-06-02T08:50:03.8359203"
+            }
+          }

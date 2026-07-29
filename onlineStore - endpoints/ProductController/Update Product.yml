@@ -1,0 +1,255 @@
+info:
+  name: Update Product
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: http://localhost:9090/product/5
+  body:
+    type: json
+    data: |-
+      {
+        "categoryId": 2
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1
+    request:
+      url: http://localhost:9090/product/2
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 02",
+            "description": "product 02 desc",
+            "remainingQuantity": 7,
+            "price": 79.89
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:25:49 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product updated successfully",
+            "result": {
+              "productId": 2,
+              "title": "Product 02",
+              "description": "product 02 desc",
+              "price": 79.89,
+              "discountPercentage": 13.0,
+              "remainingQuantity": 7,
+              "inStock": true
+            }
+          }
+  - name: error 1 - product not found
+    request:
+      url: http://localhost:9090/product/16
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Product 02",
+            "description": "product 02 desc",
+            "remainingQuantity": 7,
+            "price": 79.89
+          }
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Wed, 06 May 2026 03:42:19 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Product not found with id : 16",
+            "result": null
+          }
+  - name: success 2 - product category 1
+    request:
+      url: http://localhost:9090/product/4
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "title": "CASIO CTX 870-IN 61-key keyboard",
+            "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+            "price": 14999.87,
+            "remainingQuantity": 10,
+            "categoryId": 2
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 18:04:20 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product updated successfully",
+            "result": {
+              "productId": 4,
+              "title": "CASIO CTX 870-IN 61-key keyboard",
+              "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+              "price": 14999.87,
+              "discountPercentage": 10.0,
+              "remainingQuantity": 10,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 2,
+                "title": "Musical Instruments",
+                "description": "Everything a musician needs, all at one place !",
+                "coverImageFileId": null
+              },
+              "files": [
+                {
+                  "fileId": 3,
+                  "fileName": "CT-X8070IN - CASIO INDIA.jpg",
+                  "contentType": "image/jpeg",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 4,
+                  "addedOn": "2026-05-07T00:12:49.462702",
+                  "updatedOn": null
+                },
+                {
+                  "fileId": 4,
+                  "fileName": "Casio CT-X870IN 61-Key Portable keyboard - Amazon.jpg",
+                  "contentType": "image/jpeg",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 4,
+                  "addedOn": "2026-05-07T00:15:44.906223",
+                  "updatedOn": null
+                },
+                {
+                  "fileId": 5,
+                  "fileName": "Casio CTX - 870IN Features - flipkart.png",
+                  "contentType": "image/png",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 4,
+                  "addedOn": "2026-05-07T00:19:02.789274",
+                  "updatedOn": null
+                }
+              ]
+            }
+          }
+  - name: success 2 - product category 2
+    request:
+      url: http://localhost:9090/product/5
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "categoryId": 2
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 18:05:05 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Product updated successfully",
+            "result": {
+              "productId": 5,
+              "title": "Roland FP-10",
+              "description": "Digital Piano, 88-keys weighted touch sensitive",
+              "price": 54999.54,
+              "discountPercentage": 11.0,
+              "remainingQuantity": 8,
+              "inStock": true,
+              "categoryResponseDTO": {
+                "categoryId": 2,
+                "title": "Musical Instruments",
+                "description": "Everything a musician needs, all at one place !",
+                "coverImageFileId": null
+              },
+              "files": [
+                {
+                  "fileId": 6,
+                  "fileName": "roland FP 10 - Amazon.jpg",
+                  "contentType": "image/jpeg",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 5,
+                  "addedOn": "2026-05-07T09:27:55.490179",
+                  "updatedOn": null
+                },
+                {
+                  "fileId": 7,
+                  "fileName": "Roland FP 10 Digital Piano - Music stores.jpeg",
+                  "contentType": "image/jpeg",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 5,
+                  "addedOn": "2026-05-07T09:46:30.039737",
+                  "updatedOn": null
+                },
+                {
+                  "fileId": 8,
+                  "fileName": "Roland FP-10 Digital Piano - Piano Buyer.png",
+                  "contentType": "image/png",
+                  "fileType": "PRODUCT_IMAGE",
+                  "parentEntityId": 5,
+                  "addedOn": "2026-05-07T09:46:42.572183",
+                  "updatedOn": null
+                }
+              ]
+            }
+          }

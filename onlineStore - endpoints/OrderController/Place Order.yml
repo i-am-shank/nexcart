@@ -1,0 +1,253 @@
+info:
+  name: Place Order
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9090/order/place-order/2/address/4
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Error 1 - address not found
+    request:
+      url: http://localhost:9090/order/place-order/2/address/3
+      method: POST
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 03:31:07 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Address not found with id : 3 for userId : 2",
+            "result": null
+          }
+  - name: Error 2 - cart not found for userId
+    request:
+      url: http://localhost:9090/order/place-order/2432/address/4
+      method: POST
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 03:33:46 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: cart not found for userId : 2432",
+            "result": null
+          }
+  - name: Error 3 - empty cart
+    request:
+      url: http://localhost:9090/order/place-order/7/address/5
+      method: POST
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 04:01:45 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cart is empty, please add items to place order",
+            "result": null
+          }
+  - name: Success 1
+    request:
+      url: http://localhost:9090/order/place-order/2/address/4
+      method: POST
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 31 May 2026 05:33:49 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order placed successfully",
+            "result": {
+              "orderId": 2,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 61999.52,
+              "actualPrice": 54899.57,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 3,
+                  "orderId": null,
+                  "product": {
+                    "productId": 5,
+                    "title": "Roland FP-10",
+                    "description": "Digital Piano, 88-keys weighted touch sensitive",
+                    "price": 54999.54,
+                    "discountPercentage": 11.0,
+                    "remainingQuantity": 12,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 54999.54,
+                  "actualAmount": 48949.59
+                },
+                {
+                  "orderItemId": 4,
+                  "orderId": null,
+                  "product": {
+                    "productId": 8,
+                    "title": "SG Kashmir Willow Cricket Bat",
+                    "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                    "price": 3499.99,
+                    "discountPercentage": 15.0,
+                    "remainingQuantity": 22,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 2,
+                  "totalAmount": 6999.98,
+                  "actualAmount": 5949.98
+                }
+              ],
+              "orderDate": null,
+              "paymentDate": null,
+              "deliveryDate": null
+            }
+          }
+  - name: Success 2
+    request:
+      url: http://localhost:9090/order/place-order/2/address/4
+      method: POST
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:52:39 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order placed successfully",
+            "result": {
+              "orderId": 3,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 14999.87,
+              "actualPrice": 13499.88,
+              "orderStatus": "PENDING",
+              "paymentStatus": "PENDING",
+              "orderItems": [
+                {
+                  "orderItemId": 5,
+                  "orderId": null,
+                  "product": {
+                    "productId": 4,
+                    "title": "CASIO CTX 870-IN 61-key keyboard",
+                    "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+                    "price": 14999.87,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 15,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 14999.87,
+                  "actualAmount": 13499.88
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": null,
+              "refundDate": null,
+              "addedOn": "2026-06-02T09:22:39.4608578",
+              "updatedOn": null
+            }
+          }

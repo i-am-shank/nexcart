@@ -1,0 +1,432 @@
+info:
+  name: Create User
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9090/users
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Rohit Kumar",
+        "email": "rohit.kumar@example.com",
+        "password": "rohit1234",
+        "gender": "Male",
+        "bio": "Tech enthusiast and cricket lover.",
+        "imageName": "rohit_profile.jpg"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Create User - success - 1
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Alice Smith",
+            "email": "alice.smith@example.com",
+            "password": "alice123",
+            "gender": "Female",
+            "bio": "Fashion enthusiast and blogger.",
+            "imageName": "alice.png"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:16:41 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User created successfully",
+            "result": {
+              "userId": 2,
+              "name": "Alice Smith",
+              "email": "alice.smith@example.com",
+              "gender": "Female",
+              "bio": "Fashion enthusiast and blogger.",
+              "imageName": "alice.png",
+              "addedOn": "2026-04-04T21:46:41.4277174",
+              "updatedOn": null
+            }
+          }
+  - name: Create User - success - 2
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Rahul Verma",
+            "email": "rahul.verma@example.com",
+            "password": "rahul@456",
+            "gender": "Male",
+            "bio": "Tech lover and gadget reviewer.",
+            "imageName": "rahul.jpg"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 04 Apr 2026 16:20:23 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User created successfully",
+            "result": {
+              "userId": 3,
+              "name": "Rahul Verma",
+              "email": "rahul.verma@example.com",
+              "gender": "Male",
+              "bio": "Tech lover and gadget reviewer.",
+              "imageName": "rahul.jpg",
+              "addedOn": "2026-04-04T21:50:23.7473095",
+              "updatedOn": null
+            }
+          }
+  - name: Create User - error - 1 - gender
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Mr. A",
+            "email": "ma@example.com",
+            "password": "qwerqwer",
+            "gender": "Mal",
+            "bio": "Traveller and Music lover.",
+            "imageName": "mr_a.jpg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 03:49:37 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "gender: Gender must be either 'Male' or 'Female'",
+            "result": null
+          }
+  - name: Create User - error - 2 - email
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Mr. A",
+            "email": "ma",
+            "password": "qwerqwer",
+            "gender": "Male",
+            "bio": "Traveller and Music lover.",
+            "imageName": "mr_a.jpg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 03:50:49 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "email: Please provide a valid email address",
+            "result": null
+          }
+  - name: Create User - error - 3 - password
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Mr. A",
+            "email": "ma@example.com",
+            "gender": "Male",
+            "bio": "Traveller and Music lover.",
+            "imageName": "mr_a.jpg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 03:51:19 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "password: Password is required",
+            "result": null
+          }
+  - name: Create User - error - 4 - name
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "A",
+            "email": "ma@example.com",
+            "password": "qwerqwer",
+            "gender": "Male",
+            "bio": "Traveller and Music lover.",
+            "imageName": "mr_a.jpg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 03:51:52 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "name: Name must be between 2 and 100 characters",
+            "result": null
+          }
+  - name: Create User - error - 5 - gender (2)
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Abc",
+            "email": "ma@example.com",
+            "password": "qwerqwer",
+            "gender": "Mael",
+            "bio": "Traveller and Music lover.",
+            "imageName": "mr_a.jpg"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 05 Apr 2026 03:54:01 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "message": "gender: Gender must be either 'Male' or 'Female'",
+            "result": null
+          }
+  - name: Create User - success - 3
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Priya Singh",
+            "email": "priya.singh@example.com",
+            "password": "priya@123",
+            "gender": "Female",
+            "bio": "Food blogger and travel addict.",
+            "imageName": "priya_pic.png"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:33:42 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User created successfully",
+            "result": {
+              "userId": 5,
+              "name": "Priya Singh",
+              "email": "priya.singh@example.com",
+              "gender": "Female",
+              "bio": "Food blogger and travel addict.",
+              "imageName": "priya_pic.png",
+              "addedOn": "2026-04-12T00:03:42.2106822",
+              "updatedOn": null
+            }
+          }
+  - name: Create User - success - 4
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Aman Verma",
+            "email": "aman.verma@example.com",
+            "password": "amanPass99",
+            "gender": "Male",
+            "bio": "Fitness freak and gym trainer.",
+            "imageName": "aman_fit.jpg"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:34:25 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User created successfully",
+            "result": {
+              "userId": 6,
+              "name": "Aman Verma",
+              "email": "aman.verma@example.com",
+              "gender": "Male",
+              "bio": "Fitness freak and gym trainer.",
+              "imageName": "aman_fit.jpg",
+              "addedOn": "2026-04-12T00:04:25.7694572",
+              "updatedOn": null
+            }
+          }
+  - name: Create User - success - 5
+    request:
+      url: http://localhost:9090/users
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Rohit Kumar",
+            "email": "rohit.kumar@example.com",
+            "password": "rohit1234",
+            "gender": "Male",
+            "bio": "Tech enthusiast and cricket lover.",
+            "imageName": "rohit_profile.jpg"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 11 Apr 2026 18:34:52 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "User created successfully",
+            "result": {
+              "userId": 7,
+              "name": "Rohit Kumar",
+              "email": "rohit.kumar@example.com",
+              "gender": "Male",
+              "bio": "Tech enthusiast and cricket lover.",
+              "imageName": "rohit_profile.jpg",
+              "addedOn": "2026-04-12T00:04:52.7116961",
+              "updatedOn": null
+            }
+          }

@@ -1,0 +1,176 @@
+info:
+  name: Create Category
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9090/category?title=Sports&description=Sports, Fitness & Outdoors
+  params:
+    - name: title
+      value: Sports
+      type: query
+    - name: description
+      value: Sports, Fitness & Outdoors
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Create Category - success 1
+    request:
+      url: http://localhost:9090/category?title=Electronics&description=Electronic Items and equipments
+      method: POST
+      params:
+        - name: title
+          value: Electronics
+          type: query
+        - name: description
+          value: Electronic Items and equipments
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:11:27 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category created successfully",
+            "result": {
+              "categoryId": 1,
+              "title": "Electronics",
+              "description": "Electronic Items and equipments",
+              "coverImageFileId": null
+            }
+          }
+  - name: Create Category - success 2
+    request:
+      url: http://localhost:9090/category?title=Musical Instruments&description=Musical instruments, mics, speaker, and everything
+      method: POST
+      params:
+        - name: title
+          value: Musical Instruments
+          type: query
+        - name: description
+          value: Musical instruments, mics, speaker, and everything
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:14:12 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category created successfully",
+            "result": {
+              "categoryId": 2,
+              "title": "Musical Instruments",
+              "description": "Musical instruments, mics, speaker, and everything",
+              "coverImageFileId": null
+            }
+          }
+  - name: Create Category - success - 3
+    request:
+      url: http://localhost:9090/category?title=Fruits and Vegetables&description=All kinds of fruits, veggies you wanna buy
+      method: POST
+      params:
+        - name: title
+          value: Fruits and Vegetables
+          type: query
+        - name: description
+          value: All kinds of fruits, veggies you wanna buy
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 02 May 2026 09:16:03 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category created successfully",
+            "result": {
+              "categoryId": 3,
+              "title": "Fruits and Vegetables",
+              "description": "All kinds of fruits, veggies you wanna buy",
+              "coverImageFileId": null
+            }
+          }
+  - name: success 4 - product category
+    request:
+      url: http://localhost:9090/category?title=Sports&description=Sports, Fitness & Outdoors
+      method: POST
+      params:
+        - name: title
+          value: Sports
+          type: query
+        - name: description
+          value: Sports, Fitness & Outdoors
+          type: query
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 15:11:54 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category created successfully",
+            "result": {
+              "categoryId": 4,
+              "title": "Sports",
+              "description": "Sports, Fitness ",
+              "coverImageFileId": null
+            }
+          }

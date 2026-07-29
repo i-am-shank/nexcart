@@ -1,0 +1,179 @@
+info:
+  name: Get Category Details
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: http://localhost:9090/category/details/2
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: success 1
+    request:
+      url: http://localhost:9090/category/details/4
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 17:15:47 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category details fetched successfully",
+            "result": {
+              "categoryId": 4,
+              "title": "Sports",
+              "description": "Sports, Fitness ",
+              "coverImageFileId": 9,
+              "products": [
+                {
+                  "productId": 4,
+                  "title": "Nike Strike Football",
+                  "description": "FIFA-approved training football with durable outer casing",
+                  "price": 1899.50,
+                  "discountPercentage": 10.0,
+                  "remainingQuantity": 35,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 4,
+                    "title": "Sports",
+                    "description": "Sports, Fitness ",
+                    "coverImageFileId": 9
+                  },
+                  "files": []
+                },
+                {
+                  "productId": 7,
+                  "title": "Nike Strike Football",
+                  "description": "FIFA-approved training football with durable outer casing",
+                  "price": 1899.50,
+                  "discountPercentage": 10.0,
+                  "remainingQuantity": 35,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 4,
+                    "title": "Sports",
+                    "description": "Sports, Fitness ",
+                    "coverImageFileId": 9
+                  },
+                  "files": []
+                },
+                {
+                  "productId": 8,
+                  "title": "SG Kashmir Willow Cricket Bat",
+                  "description": "Professional grade cricket bat with thick edges and shock absorption grip",
+                  "price": 3499.99,
+                  "discountPercentage": 15.0,
+                  "remainingQuantity": 20,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 4,
+                    "title": "Sports",
+                    "description": "Sports, Fitness ",
+                    "coverImageFileId": 9
+                  },
+                  "files": []
+                },
+                {
+                  "productId": 9,
+                  "title": "Adidas Football Shoes",
+                  "description": "Lightweight football studs with enhanced grip for turf and ground play",
+                  "price": 4599.75,
+                  "discountPercentage": 12.0,
+                  "remainingQuantity": 14,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 4,
+                    "title": "Sports",
+                    "description": "Sports, Fitness ",
+                    "coverImageFileId": 9
+                  },
+                  "files": []
+                }
+              ]
+            }
+          }
+  - name: success 2 - product category
+    request:
+      url: http://localhost:9090/category/details/2
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 09 May 2026 18:06:15 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Category details fetched successfully",
+            "result": {
+              "categoryId": 2,
+              "title": "Musical Instruments",
+              "description": "Everything a musician needs, all at one place !",
+              "coverImageFileId": null,
+              "products": [
+                {
+                  "productId": 4,
+                  "title": "CASIO CTX 870-IN 61-key keyboard",
+                  "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+                  "price": 14999.87,
+                  "discountPercentage": 10.0,
+                  "remainingQuantity": 10,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 2,
+                    "title": "Musical Instruments",
+                    "description": "Everything a musician needs, all at one place !",
+                    "coverImageFileId": null
+                  },
+                  "files": []
+                },
+                {
+                  "productId": 5,
+                  "title": "Roland FP-10",
+                  "description": "Digital Piano, 88-keys weighted touch sensitive",
+                  "price": 54999.54,
+                  "discountPercentage": 11.0,
+                  "remainingQuantity": 8,
+                  "inStock": true,
+                  "categoryResponseDTO": {
+                    "categoryId": 2,
+                    "title": "Musical Instruments",
+                    "description": "Everything a musician needs, all at one place !",
+                    "coverImageFileId": null
+                  },
+                  "files": []
+                }
+              ]
+            }
+          }

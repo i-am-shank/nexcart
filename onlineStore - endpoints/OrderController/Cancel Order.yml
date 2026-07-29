@@ -1,0 +1,139 @@
+info:
+  name: Cancel Order
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: http://localhost:9090/order/1/user/123
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Success 1
+    request:
+      url: http://localhost:9090/order/3/user/2
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:55:23 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 200,
+            "message": "Order cancelled successfully",
+            "result": {
+              "orderId": 3,
+              "userId": null,
+              "address": {
+                "addressId": 4,
+                "userId": 2,
+                "name": "Aman Verma",
+                "building": "House 45B",
+                "street": "Park Street",
+                "city": "Kolkata",
+                "state": "West Bengal",
+                "pinCode": "700016",
+                "phoneNumber": "9123456780",
+                "isCurrent": true,
+                "addedOn": "2026-05-26T09:36:11.712587",
+                "updatedOn": "2026-05-26T09:38:59.022219"
+              },
+              "totalPrice": 14999.87,
+              "actualPrice": 13499.88,
+              "orderStatus": "CANCELLED",
+              "paymentStatus": "REFUND_IN_PROCESS",
+              "orderItems": [
+                {
+                  "orderItemId": 5,
+                  "orderId": null,
+                  "product": {
+                    "productId": 4,
+                    "title": "CASIO CTX 870-IN 61-key keyboard",
+                    "description": "61-key touch-sensitive keyboard with 600 tones and 80 rhythms",
+                    "price": 14999.87,
+                    "discountPercentage": 10.0,
+                    "remainingQuantity": 16,
+                    "inStock": true,
+                    "categoryResponseDTO": null,
+                    "files": []
+                  },
+                  "quantity": 1,
+                  "totalAmount": 14999.87,
+                  "actualAmount": 13499.88
+                }
+              ],
+              "paymentDate": null,
+              "deliveryDate": null,
+              "refundDate": null,
+              "addedOn": "2026-06-02T09:22:39.460858",
+              "updatedOn": null
+            }
+          }
+  - name: Error 1 - non PENDING order
+    request:
+      url: http://localhost:9090/order/1/user/2
+      method: DELETE
+    response:
+      status: 501
+      statusText: Not Implemented
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:56:37 GMT
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "status": 501,
+            "message": "Unsupported operation: Cannot process cancel request, already started processing or delivered order",
+            "result": null
+          }
+  - name: Error 1 - order not found
+    request:
+      url: http://localhost:9090/order/1/user/123
+      method: DELETE
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 02 Jun 2026 03:57:15 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "message": "Resource not found: Order not found for id : 1 and userId : 123",
+            "result": null
+          }
